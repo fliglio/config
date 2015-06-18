@@ -4,7 +4,7 @@ namespace Fliglio\Config;
 class AggregatePropertySetProvider implements PropertySetProvider {
 	private $sources = [];
 
-	public function __construct(array $sources) {
+	public function __construct(array $sources=[]) {
 		foreach ($sources as $source) {
 			$this->addPropertySetProvider($source);
 		}
