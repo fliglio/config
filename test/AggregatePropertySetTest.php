@@ -2,35 +2,32 @@
 
 namespace Fliglio\Config;
 
+class AggregatePropertySetTest extends \PHPUnit_Framework_TestCase {
 
-class PropertySetTest extends \PHPUnit_Framework_TestCase {
+	public function setup() {
+		$_SERVER['test_fliglio_env'] = 'foo';
+	}
 
-
-	public function testPropertySet() {
-		$cfg = ["foo" => "bar"];
-		$p = new DefaultPropertySetProvider($cfg); 
-	
-		// when
-		$found = $p->build();
-
-		// then
-		
-		$this->assertEquals($cfg, $found);
+	public function tearDown() {
+		unset($_SERVER['test_fliglio_env']);
 	}
 
 	public function testAggregateProvider_ShallowConfigs() {
+		// given
 		$cfgA = new DefaultPropertySetProvider(["foo" => "bar", "baz" => "biz"]);
-		$cfgB = new DefaultPropertySetProvider(["b" => "BBBB", "foo" => "updated"]);;
-		
-		$expected = ["b" => "BBBB", "foo" => "updated", "baz" => "biz"];
+		$cfgB = new DefaultPropertySetProvider(["b" => "BBBB", "foo" => "updated"]);
+		$cfgC = new EnvPropertySetProvider('test_');
+
+		$expected = ["b" => "BBBB", "foo" => "updated", "baz" => "biz", "fliglio_env" => "foo"];
 
 		// when
-		$p = new AggregatePropertySetProvider([$cfgA, $cfgB]);
+		$p = new AggregatePropertySetProvider([$cfgA, $cfgB, $cfgC]);
 		$found = $p->build();
 
 		// then
 		$this->assertEquals($found, $expected);
 	}
+
 	public function testAggregateProvider_DeepConfigs() {
 		$cfgA = new DefaultPropertySetProvider([
 			"a"   => "afoo",
@@ -59,7 +56,7 @@ class PropertySetTest extends \PHPUnit_Framework_TestCase {
 				]
 			],
 		]);
-		
+
 		$expected = [
 			"a"   => "bfoo",
 			"a2"  => "afoo",
