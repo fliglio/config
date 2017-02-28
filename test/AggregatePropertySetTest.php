@@ -2,10 +2,20 @@
 
 namespace Fliglio\Config;
 
+use SensioLabs\Consul\ServiceFactory;
+
 class AggregatePropertySetTest extends \PHPUnit_Framework_TestCase {
+
+	private $consulkey = 'test_fliglio';
+	private $consul = ["consul" => ["foo" => "bar"]];
 
 	public function setup() {
 		$_SERVER['test_fliglio_env'] = 'foo';
+
+		$sf = new ServiceFactory();
+		$kv = $sf->get('kv');
+
+		$kv->put($this->consulkey, json_encode($this->consul));
 	}
 
 	public function tearDown() {
@@ -14,14 +24,22 @@ class AggregatePropertySetTest extends \PHPUnit_Framework_TestCase {
 
 	public function testAggregateProvider_ShallowConfigs() {
 		// given
-		$cfgA = new DefaultPropertySetProvider(["foo" => "bar", "baz" => "biz"]);
-		$cfgB = new DefaultPropertySetProvider(["b" => "BBBB", "foo" => "updated"]);
-		$cfgC = new EnvPropertySetProvider('test_');
+		$p = new AggregatePropertySetProvider([
+			new DefaultPropertySetProvider(["foo" => "bar", "baz" => "biz"]),
+			new DefaultPropertySetProvider(["b" => "BBBB", "foo" => "updated"]),
+			new ConsulPropertySetProvider($this->consulkey),
+			new EnvPropertySetProvider('test_')
+		]);
 
-		$expected = ["b" => "BBBB", "foo" => "updated", "baz" => "biz", "fliglio_env" => "foo"];
+		$expected = [
+			"b"           => "BBBB", 
+			"foo"         => "updated", 
+			"baz"         => "biz", 
+			"fliglio_env" => "foo",
+			"consul"      => ["foo" => "bar"]
+		];
 
 		// when
-		$p = new AggregatePropertySetProvider([$cfgA, $cfgB, $cfgC]);
 		$found = $p->build();
 
 		// then
