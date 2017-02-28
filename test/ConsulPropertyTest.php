@@ -9,6 +9,7 @@ class ConsulPropertyTest extends \PHPUnit_Framework_TestCase {
 	private $key = 'test_fliglio';
 	private $expected = ["foo" => "bar"];
 
+
 	public function xsetup() {
 		$sf = new ServiceFactory();
 		$kv = $sf->get('kv');
