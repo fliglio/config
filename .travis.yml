@@ -9,7 +9,7 @@ php:
 before_script:
   - composer self-update
   - composer install --prefer-source --dev
-  - curl -LO 'http://releases.hashicorp.com/consul/0.6.4/consul_0.6.4_linux_amd64.zip'
+  - curl -LO -k 'http://releases.hashicorp.com/consul/0.6.4/consul_0.6.4_linux_amd64.zip'
   - unzip "consul_0.6.4_linux_amd64.zip"
   - ./consul --version
 
