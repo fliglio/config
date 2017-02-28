@@ -9,6 +9,11 @@ php:
 before_script:
   - composer self-update
   - composer install --prefer-source --dev
+  - curl -LO 'https://releases.hashicorp.com/consul/0.6.4/consul_0.6.4_linux_amd64.zip'
+  - unzip "consul_0.6.4_linux_amd64.zip"
+  - ./consul --version
 
 script:
+  - ./consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul &
+  - sleep 5
   - ./vendor/bin/phpunit -v -c phpunit.xml
