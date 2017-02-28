@@ -12,10 +12,10 @@ class AggregatePropertySetTest extends \PHPUnit_Framework_TestCase {
 	public function setup() {
 		$_SERVER['test_fliglio_env'] = 'foo';
 
-		$sf = new ServiceFactory();
-		$kv = $sf->get('kv');
+		// $sf = new ServiceFactory();
+		// $kv = $sf->get('kv');
 
-		$kv->put($this->consulkey, json_encode($this->consul));
+		// $kv->put($this->consulkey, json_encode($this->consul));
 	}
 
 	public function tearDown() {
@@ -27,7 +27,7 @@ class AggregatePropertySetTest extends \PHPUnit_Framework_TestCase {
 		$p = new AggregatePropertySetProvider([
 			new DefaultPropertySetProvider(["foo" => "bar", "baz" => "biz"]),
 			new DefaultPropertySetProvider(["b" => "BBBB", "foo" => "updated"]),
-			new ConsulPropertySetProvider($this->consulkey),
+			// new ConsulPropertySetProvider($this->consulkey),
 			new EnvPropertySetProvider('test_')
 		]);
 
@@ -36,7 +36,7 @@ class AggregatePropertySetTest extends \PHPUnit_Framework_TestCase {
 			"foo"         => "updated", 
 			"baz"         => "biz", 
 			"fliglio_env" => "foo",
-			"consul"      => ["foo" => "bar"]
+			// "consul"      => ["foo" => "bar"]
 		];
 
 		// when
