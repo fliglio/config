@@ -6,20 +6,14 @@ use SensioLabs\Consul\ServiceFactory;
 
 class AggregatePropertySetTest extends \PHPUnit_Framework_TestCase {
 
-	private $consulkey = 'test_fliglio';
-	private $consul = ["consul" => ["foo" => "bar"]];
+	private $config;
 
 	public function setup() {
-		$_SERVER['test_fliglio_env'] = 'foo';
-
-		// $sf = new ServiceFactory();
-		// $kv = $sf->get('kv');
-
-		// $kv->put($this->consulkey, json_encode($this->consul));
+		$this->config =  ['fliglio_env' => 'foo'];
 	}
 
 	public function tearDown() {
-		unset($_SERVER['test_fliglio_env']);
+		unset($this->config);
 	}
 
 	public function testAggregateProvider_ShallowConfigs() {
@@ -27,16 +21,14 @@ class AggregatePropertySetTest extends \PHPUnit_Framework_TestCase {
 		$p = new AggregatePropertySetProvider([
 			new DefaultPropertySetProvider(["foo" => "bar", "baz" => "biz"]),
 			new DefaultPropertySetProvider(["b" => "BBBB", "foo" => "updated"]),
-			// new ConsulPropertySetProvider($this->consulkey),
-			new EnvPropertySetProvider('test_')
+			new EnvPropertySetProvider($this->config)
 		]);
 
 		$expected = [
 			"b"           => "BBBB", 
 			"foo"         => "updated", 
 			"baz"         => "biz", 
-			"fliglio_env" => "foo",
-			// "consul"      => ["foo" => "bar"]
+			"fliglio"     => ["env" => "foo"]
 		];
 
 		// when
