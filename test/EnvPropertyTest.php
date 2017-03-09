@@ -32,7 +32,7 @@ class EnvPropertyTest extends \PHPUnit_Framework_TestCase {
 
 	public function testSimple() {
 		// given
-		$config = ["fliglio" => 'foo'];
+		$config = ["FLIGLIO" => 'foo'];
 		$provider = new EnvPropertySetProvider($config);
 
 		// when
@@ -40,6 +40,39 @@ class EnvPropertyTest extends \PHPUnit_Framework_TestCase {
 
 		// then
 		$this->assertEquals($config['fliglio'], 'foo');
+	}
+
+	public function testArrayAndValue() {
+		// given
+		$config = [
+			"BAX" => 'doo',
+			"FOO" => 'foo',
+			"FOO_BAR" => 'baz'
+		];
+		$provider = new EnvPropertySetProvider($config);
+
+		// when
+		$config = $provider->build();
+
+		// then
+		$this->assertEquals('doo', $config['bax']);
+		$this->assertEquals('baz', $config['foo']['bar']);
+		$this->assertEquals(['bar' => 'baz'], $config['foo']);
+	}
+
+	public function testArrayAndValueOppositeOrder() {
+		// given
+		$config = [
+			"FOO_BAR" => 'baz',
+			"FOO" => 'bax'
+		];
+		$provider = new EnvPropertySetProvider($config);
+
+		// when
+		$config = $provider->build();
+
+		// then
+		$this->assertEquals(['bar' => 'baz'], $config['foo']);
 	}
 
 }
