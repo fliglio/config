@@ -32,7 +32,9 @@ class EnvPropertySetProvider implements PropertySetProvider {
 			}
 
 			$pointer = !is_array($pointer) ? [] : $pointer;
-			$pointer[$key_last] = $value;
+			if (!isset($pointer[$key_last])) {
+				$pointer[$key_last] = $value;
+			}
 		}
 
 		return $out;

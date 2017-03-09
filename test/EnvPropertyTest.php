@@ -4,7 +4,7 @@ namespace Fliglio\Config;
 
 class EnvPropertyTest extends \PHPUnit_Framework_TestCase {
 
-	public function xtestNested() {
+	public function testNested() {
 		// given
 		$config = [
 			"test_fliglio_env" => 'foo1',
@@ -30,7 +30,7 @@ class EnvPropertyTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($config['host'], 'foo7');
 	}
 
-	public function xtestSimple() {
+	public function testSimple() {
 		// given
 		$config = ["FLIGLIO" => 'foo'];
 		$provider = new EnvPropertySetProvider($config);
@@ -55,12 +55,12 @@ class EnvPropertyTest extends \PHPUnit_Framework_TestCase {
 		$config = $provider->build();
 
 		// then
-		$this->assertEquals($config['bax'], 'doo');
-		$this->assertEquals($config['foo']['bar'], 'baz');
-		$this->assertEquals($config['foo'], [ 'bar' => 'baz']);
+		$this->assertEquals('doo', $config['bax']);
+		$this->assertEquals('baz', $config['foo']['bar']);
+		$this->assertEquals(['bar' => 'baz'], $config['foo']);
 	}
 
-	public function xtestArrayAndValueOppositeOrder() {
+	public function testArrayAndValueOppositeOrder() {
 		// given
 		$config = [
 			"FOO_BAR" => 'baz',
@@ -72,8 +72,7 @@ class EnvPropertyTest extends \PHPUnit_Framework_TestCase {
 		$config = $provider->build();
 
 		// then
-		$this->assertEquals($config['foo']['bar'], 'baz');
-		$this->assertEquals($config['foo'], ['bar' => 'baz']);
+		$this->assertEquals(['bar' => 'baz'], $config['foo']);
 	}
 
 }
