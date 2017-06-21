@@ -7,16 +7,16 @@ use Fliglio\Vault\VaultClient;
 class VaultPropertySetProvider implements PropertySetProvider {
 
 	private $client;
-	private $projectName;
+	private $secretPath;
 
-	public function __construct(VaultClient $client, $projectName) {
+	public function __construct(VaultClient $client, $secretPath) {
 		$this->client = $client;
-		$this->projectName = $projectName;
+		$this->secretPath = $secretPath;
 	}
 
 	public function build() {
-		$data = $this->client->read(sprintf("secret/%s", $this->projectName))['data'];
-		
+		$data = $this->client->read($this->secretPath)['data'];
+
 		$out = [];
 
 		foreach ($data as $key => $value) {

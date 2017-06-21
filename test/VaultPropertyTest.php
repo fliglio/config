@@ -6,6 +6,8 @@ use Fliglio\Vault\VaultClient;
 
 class VaultPropertyTest extends \PHPUnit_Framework_TestCase {
 
+	const SECRET_PATH = "secret/fliglio-test";
+
 	public function testNested() {
 		// given
 		$config = [
@@ -18,7 +20,7 @@ class VaultPropertyTest extends \PHPUnit_Framework_TestCase {
 			"host"  => 'foo7'
 		];
 
-		$provider = new VaultPropertySetProvider(new StubVaultClient($config), "fliglio-test");
+		$provider = new VaultPropertySetProvider(new StubVaultClient($config), self::SECRET_PATH);
 
 		// when
 		$config = $provider->build();
@@ -36,7 +38,7 @@ class VaultPropertyTest extends \PHPUnit_Framework_TestCase {
 	public function testSimple() {
 		// given
 		$config = ["FLIGLIO" => 'foo'];
-		$provider = new VaultPropertySetProvider(new StubVaultClient($config), "fliglio-test");
+		$provider = new VaultPropertySetProvider(new StubVaultClient($config), self::SECRET_PATH);
 
 		// when
 		$config = $provider->build();
@@ -53,7 +55,7 @@ class VaultPropertyTest extends \PHPUnit_Framework_TestCase {
 			"FOO_BAR" => 'baz'
 		];
 
-		$provider = new VaultPropertySetProvider(new StubVaultClient($config), "fliglio-test");
+		$provider = new VaultPropertySetProvider(new StubVaultClient($config), self::SECRET_PATH);
 
 		// when
 		$config = $provider->build();
@@ -71,7 +73,7 @@ class VaultPropertyTest extends \PHPUnit_Framework_TestCase {
 			"FOO" => 'bax'
 		];
 
-		$provider = new VaultPropertySetProvider(new StubVaultClient($config), "fliglio-test");
+		$provider = new VaultPropertySetProvider(new StubVaultClient($config), self::SECRET_PATH);
 
 		// when
 		$config = $provider->build();
@@ -87,10 +89,10 @@ class StubVaultClient extends VaultClient {
 	private $data = [];
 
 	public function __construct($data) {
-		$this->data = $data;
+		$this->data = [VaultPropertyTest::SECRET_PATH => $data];
 	}
 
 	public function read($string) {
-		return ['data' => $this->data];
+		return ['data' => $this->data[$string]];
 	}
 }
