@@ -13,7 +13,8 @@
         "sensiolabs/consul-php-sdk" : "1.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.1.0"
+        "phpunit/phpunit": "~4.1.0",
+        "fliglio/vault"  : "2.1.*"
     },
     "autoload": {
         "psr-0": { "Fliglio\\Config\\": "" }
