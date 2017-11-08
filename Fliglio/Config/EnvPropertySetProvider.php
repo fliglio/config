@@ -3,6 +3,7 @@
 namespace Fliglio\Config;
 
 class EnvPropertySetProvider implements PropertySetProvider {
+
 	private $config;
 
 	// only provide an argument for test
@@ -10,7 +11,7 @@ class EnvPropertySetProvider implements PropertySetProvider {
 		if (is_null($config)) {
 			$config = $_ENV;
 		}
-		$this->config = $config;		
+		$this->config = $config;
 	}
 
 	public function build() {
@@ -29,9 +30,15 @@ class EnvPropertySetProvider implements PropertySetProvider {
 				}
 
 				$pointer = &$pointer[$key_level];
+
+				// type safety for potential downstream arrays that may have already
+				// been assigned as a string value
+				// see EnvPropertyTest.testChildArrayAndValueOverwrite()
+				$pointer = !is_array($pointer) ? [] : $pointer;
 			}
 
 			$pointer = !is_array($pointer) ? [] : $pointer;
+
 			if (!isset($pointer[$key_last])) {
 				$pointer[$key_last] = $value;
 			}
