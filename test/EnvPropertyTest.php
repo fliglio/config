@@ -42,7 +42,37 @@ class EnvPropertyTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($config['fliglio'], 'foo');
 	}
 
-	public function testArrayAndValue() {
+	public function testChildArrayAndValueOverwrite() {
+		// given
+		$config = [
+			"FOO_BAR" => 'foo',
+			"FOO_BAR_BAZ_BOO" => 'hoo'
+		];
+		$provider = new EnvPropertySetProvider($config);
+
+		// when
+		$config = $provider->build();
+
+		// then
+		$this->assertEquals('hoo', $config['foo']['bar']['baz']['boo']);
+	}
+
+	public function testChildArrayAndValueOverwrite_OppositeOrderArrayWins() {
+		// given
+		$config = [
+			"FOO_BAR_BAZ_BOO" => 'hoo',
+			"FOO_BAR" => 'foo'
+		];
+		$provider = new EnvPropertySetProvider($config);
+
+		// when
+		$config = $provider->build();
+
+		// then
+		$this->assertEquals('hoo', $config['foo']['bar']['baz']['boo']);
+	}
+
+	public function testRootArrayAndValueOverwrite() {
 		// given
 		$config = [
 			"BAX" => 'doo',
@@ -57,10 +87,10 @@ class EnvPropertyTest extends \PHPUnit_Framework_TestCase {
 		// then
 		$this->assertEquals('doo', $config['bax']);
 		$this->assertEquals('baz', $config['foo']['bar']);
-		$this->assertEquals(['bar' => 'baz'], $config['foo']);
+		$this->assertEquals('baz', $config['foo']['bar']);
 	}
 
-	public function testArrayAndValueOppositeOrder() {
+	public function testRootArrayAndValueOverwrite_OppositeOrderArrayWins() {
 		// given
 		$config = [
 			"FOO_BAR" => 'baz',
@@ -72,7 +102,7 @@ class EnvPropertyTest extends \PHPUnit_Framework_TestCase {
 		$config = $provider->build();
 
 		// then
-		$this->assertEquals(['bar' => 'baz'], $config['foo']);
+		$this->assertEquals('baz', $config['foo']['bar']);
 	}
 
 }
