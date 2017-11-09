@@ -80,6 +80,8 @@ class EnvPropertyTest extends \PHPUnit_Framework_TestCase {
 			"FOO_BAR" => 'baz',
 			"MOO_STRING_BOOL_FALSE" => 'false',
 			"MOO_STRING_BOOL_TRUE" => 'true',
+			"TOO_STRING_BOOL_FALSE" => 'FALSE',
+			"TOO_STRING_BOOL_TRUE" => 'TRUE',
 			"COO_BOOL_FALSE" => false,
 			"COO_BOOL_TRUE" => true
 		];
@@ -94,6 +96,7 @@ class EnvPropertyTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(['bar' => 'baz'], $config['foo']);
 		$this->assertEquals(['false' => false, 'true' => true], $config['coo']['bool']);
 		$this->assertEquals(['false' => false, 'true' => true], $config['moo']['string']['bool']);
+		$this->assertEquals(['false' => false, 'true' => true], $config['too']['string']['bool']);
 	}
 
 	public function testRootArrayAndValueOverwrite_OppositeOrderArrayWins() {
