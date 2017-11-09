@@ -40,11 +40,21 @@ class EnvPropertySetProvider implements PropertySetProvider {
 			$pointer = !is_array($pointer) ? [] : $pointer;
 
 			if (!isset($pointer[$key_last])) {
-				$pointer[$key_last] = $value;
+				$pointer[$key_last] = $this->checkForStringBool($value);
 			}
 		}
 
 		return $out;
 	}
 
+	private function checkForStringBool($value) {
+		if (!is_bool($value)) {
+			if (strtolower($value) === 'true') {
+				$value = true;
+			} else if (strtolower($value) === 'false') {
+				$value = false;
+			}
+		}
+		return $value;
+	}
 }
