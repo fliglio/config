@@ -48,7 +48,7 @@ class EnvPropertySetProvider implements PropertySetProvider {
 	}
 
 	private function checkForStringBool($value) {
-		if (!is_bool($value)) {
+		if (!is_array($value) && !is_bool($value)) {
 			if (strtolower($value) === 'true') {
 				$value = true;
 			} else if (strtolower($value) === 'false') {
