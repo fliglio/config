@@ -2,12 +2,6 @@
 
 namespace Fliglio\Config;
 
-use Fliglio\Config\EnvPropertySetProvider;
-use Fliglio\Config\DefaultPropertySetStash;
-use Fliglio\Config\CachedPropertySetProvider;
-use Fliglio\Config\DefaultPropertySetProvider;
-use Fliglio\Config\AggregatePropertySetProvider;
-
 class AggregatePropertySetTest extends \PHPUnit_Framework_TestCase {
 
 	private $config;
