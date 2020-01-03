@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit bootstrap="./vendor/autoload.php">
-
-
     <testsuites>
-        <testsuite name="Addr Test Suite">
+        <testsuite name="Config Test Suite">
             <directory suffix=".php">./test</directory>
         </testsuite>
     </testsuites>
-
-
 </phpunit>
