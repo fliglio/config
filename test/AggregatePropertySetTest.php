@@ -2,8 +2,6 @@
 
 namespace Fliglio\Config;
 
-use SensioLabs\Consul\ServiceFactory;
-
 class AggregatePropertySetTest extends \PHPUnit_Framework_TestCase {
 
 	private $config;

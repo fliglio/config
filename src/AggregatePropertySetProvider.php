@@ -1,4 +1,5 @@
 <?php
+
 namespace Fliglio\Config;
 
 class AggregatePropertySetProvider implements PropertySetProvider {
