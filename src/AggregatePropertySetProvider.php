@@ -29,13 +29,14 @@ class AggregatePropertySetProvider implements PropertySetProvider {
 	}
 	/**
 	 * Recursively merge two arrays
-	 * - scalar values with the same key:  overlay's value is used
-	 * - assoc arrays with the same key:   merge two associative arrays
-	 * - ordered arrays with the same key: overlay's array is used
+	 * - scalar values with the same key:                overlay's value is used
+	 * - assoc arrays with the same key:                 merge two associative arrays
+	 * - ordered arrays with the same key:               overlay's array is used
+	 * - scalar value and assoc array with the same key: associative array is used
 	 */
 	private function overlayProperties($base, $overlay) {
 		foreach ($overlay as $key => $val) {
-			if (is_array($val) && $this->isAssociative($val) && isset($base[$key])) {
+			if (is_array($val) && $this->isAssociative($val) && isset($base[$key]) && is_array($base[$key])) {
 				$base[$key] = $this->overlayProperties($base[$key], $val);
 			} else {
 				$base[$key] = $val;

@@ -33,7 +33,27 @@ class AggregatePropertySetTest extends \PHPUnit_Framework_TestCase {
 		$found = $p->build();
 
 		// then
-		$this->assertEquals($found, $expected);
+		$this->assertEquals($expected, $found);
+	}
+
+	public function testAggregateProvider_overlayArrayOnString() {
+		$cfgA = new DefaultPropertySetProvider([
+			"a" => "afoo"
+		]);
+		$cfgB = new DefaultPropertySetProvider([
+			"a"  => ["stream" => "a1"]
+		]);
+
+		$expected = [
+			"a"  => ["stream" => "a1"]
+		];
+
+		// when
+		$p = new AggregatePropertySetProvider([$cfgA, $cfgB]);
+		$found = $p->build();
+
+		// then
+		$this->assertEquals($expected, $found);
 	}
 
 	public function testAggregateProvider_DeepConfigs() {
@@ -87,7 +107,7 @@ class AggregatePropertySetTest extends \PHPUnit_Framework_TestCase {
 		$found = $p->build();
 
 		// then
-		$this->assertEquals($found, $expected);
+		$this->assertEquals($expected, $found);
 	}
 
 	public function testCachedPropertySet() {
