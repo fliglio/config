@@ -11,4 +11,3 @@ testWithCoverage:
 	php ./vendor/bin/phpunit -c phpunit-coverage.xml test/
 
 .PHONY: test
-

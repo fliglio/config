@@ -16,7 +16,7 @@ class DefaultStashTest extends \PHPUnit_Framework_TestCase {
 
 		// then
 
-		$this->assertEquals($found, $cfg);
+		$this->assertEquals($cfg, $found);
 	}
 	
 	/**
@@ -26,7 +26,7 @@ class DefaultStashTest extends \PHPUnit_Framework_TestCase {
 		$stash = new DefaultPropertySetStash();
 		
 		// when
-		$found = $stash->get();
+		$stash->get();
 	}
 
 	/**
@@ -39,7 +39,7 @@ class DefaultStashTest extends \PHPUnit_Framework_TestCase {
 		
 		// when
 		$stash->reset();
-		$found = $stash->get();
+		$stash->get();
 	}
 
 }
