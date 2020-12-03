@@ -14,7 +14,7 @@ class FsPropertySetTest extends \PHPUnit_Framework_TestCase {
 		$output = $fsProvider->build();
 
 		// then
-		$this->assertEquals($output, $this->expected);
+		$this->assertEquals($this->expected, $output);
 	}
 
 	public function testPropertySet_Yaml() {
@@ -25,7 +25,7 @@ class FsPropertySetTest extends \PHPUnit_Framework_TestCase {
 		$output = $fsProvider->build();
 
 		// then
-		$this->assertEquals($output, $this->expected);
+		$this->assertEquals($this->expected, $output);
 	}
 
 }

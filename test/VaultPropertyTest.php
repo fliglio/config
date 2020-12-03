@@ -26,13 +26,13 @@ class VaultPropertyTest extends \PHPUnit_Framework_TestCase {
 		$config = $provider->build();
 
 		// then
-		$this->assertEquals($config['test']['fliglio']['vault'], 'foo1');
-		$this->assertEquals($config['test']['fliglio']['loc'], 'foo2');
-		$this->assertEquals($config['test']['system']['env']['user'], 'foo3');
-		$this->assertEquals($config['test']['system']['env']['pass'], 'foo4');
-		$this->assertEquals($config['mysql']['user'], 'foo5');
-		$this->assertEquals($config['mysql']['pass'], 'foo6');
-		$this->assertEquals($config['host'], 'foo7');
+		$this->assertEquals('foo1', $config['test']['fliglio']['vault']);
+		$this->assertEquals('foo2', $config['test']['fliglio']['loc']);
+		$this->assertEquals('foo3', $config['test']['system']['env']['user']);
+		$this->assertEquals('foo4', $config['test']['system']['env']['pass']);
+		$this->assertEquals('foo5', $config['mysql']['user']);
+		$this->assertEquals('foo6', $config['mysql']['pass']);
+		$this->assertEquals('foo7', $config['host']);
 	}
 
 	public function testSimple() {
@@ -44,7 +44,7 @@ class VaultPropertyTest extends \PHPUnit_Framework_TestCase {
 		$config = $provider->build();
 
 		// then
-		$this->assertEquals($config['fliglio'], 'foo');
+		$this->assertEquals('foo', $config['fliglio']);
 	}
 
 	public function testArrayAndValue() {
